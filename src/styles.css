@@ -7,7 +7,7 @@ main {
 	place-items: center;
 	background: #aaa;
 }
-main div {
+main .table-game {
 	width: 75%;
 	display: flex;
 	flex-direction: column;
@@ -34,18 +34,18 @@ main div {
 .cell--black {
 	background-color: #333;
 }
-.f {
+.index-card {
 	display: block;
 	width: 30px;
 	height: 30px;
 	border-radius: 50%;
 }
-.f--black {
+.index-card--black {
 	background: rgba(187, 187, 187, 0.438);
 }
-.f--red {
+.index-card--red {
 	background-color: rgb(102, 68, 68);
 }
-.f--select {
+.index-card--select {
 	border: 0.5px solid #000;
 }

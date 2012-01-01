@@ -1,6 +1,6 @@
 "use strinct"
 
-const table = document.getElementById('table')
+const tableGame = document.getElementById('tableGame')
 
 const tableFragment = document.createDocumentFragment()
 let isRedCell = false
@@ -13,7 +13,7 @@ for (let y = 0; y < 10; y++) {
         cell.classList.add('cell')
         cell.classList.add(isRedCell ? 'cell--red' : 'cell--black')
         if(isRedCell && (y < 4 || y > 5)) {
-            cell.innerHTML = `<div class="f ${y < 4 ? 'f--black' : 'f--red'}"></div>`
+            cell.innerHTML = `<div class="index-card index-card${y < 4 ? '--black' : '--red'}"></div>`
         }
         isRedCell = !isRedCell
         row.appendChild(cell)
@@ -21,4 +21,4 @@ for (let y = 0; y < 10; y++) {
     isRedCell = !isRedCell
     tableFragment.appendChild(row)
 }
-table.appendChild(tableFragment)
+tableGame.appendChild(tableFragment)
