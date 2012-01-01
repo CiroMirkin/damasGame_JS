@@ -19,7 +19,8 @@ main div {
 	flex-flow: 0;
 }
 .cell {
-	display: inline-block;
+	display: grid;
+	place-items: center;
 	width: 45px;
 	height: 45px;
 	border: .2px solid #000;
@@ -29,4 +30,10 @@ main div {
 }
 .cell--black {
 	background: #333;
+}
+.f {
+	display: block;
+	width: 25px;
+	height: 25px;
+	background: rgba(187, 187, 187, 0.438);
 }

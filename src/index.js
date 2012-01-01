@@ -12,8 +12,11 @@ for (let y = 0; y < 10; y++) {
         const cell = document.createElement('LI')
         cell.classList.add('cell')
         cell.classList.add(isRedCell ? 'cell--red' : 'cell--black')
-        row.appendChild(cell)
+        if(isRedCell && (y < 4 || y > 5)) {
+            cell.innerHTML = '<div class="f"></div>'
+        }
         isRedCell = !isRedCell
+        row.appendChild(cell)
     }
     isRedCell = !isRedCell
     tableFragment.appendChild(row)
