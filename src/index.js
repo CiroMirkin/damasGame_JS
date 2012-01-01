@@ -95,13 +95,17 @@ tableGame.addEventListener('click', (e) => {
     if(elementId.split('-').at(1) == 'cell' && cellForSelect) {
         const cell = document.getElementById(elementId)
         const oldCell = document.getElementById(cardIndexFotToMove.oldCellId)
-
-        cell.innerHTML = `
-        <div 
-            class="index-card ${cardIndexFotToMove.color}"
-            id="${cardIndexFotToMove.id}"
-        ></div>
-        `
-        oldCell.innerHTML = ''
+        
+        if(!cell.children.length) {
+            cell.innerHTML = `
+                <div 
+                    class="index-card ${cardIndexFotToMove.color}"
+                    id="${cardIndexFotToMove.id}"
+                ></div>
+            `
+            oldCell.innerHTML = ''
+        }
+        cellForSelect = false
+        cardIndexFotToMove = {}
     }
 })
