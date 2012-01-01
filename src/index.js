@@ -23,7 +23,7 @@ const getTableIds = (long) => {
 
 const getInitialTableGame = () => {
     const tableFragment = document.createDocumentFragment()
-    let isRedCell = false
+    let isRedCell = true
     const tableGameIds = getTableIds()
 
     for (let y = 0; y < 10; y++) {
@@ -61,7 +61,7 @@ const getIndexCardsInHisInitialsPositions = (tableGame) => {
             if (isRedCell && (y < 4 || y > 5)) {
                 cell.innerHTML = `
                     <div 
-                        class="index-card index-card${y < 4 ? '--black' : '--red'}"
+                        class="index-card index-card${y < 4 ? '--red' : '--black'}"
                         id="${indexCardId}-indexCard"
                     ></div>
                 `
