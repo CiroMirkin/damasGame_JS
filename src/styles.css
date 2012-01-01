@@ -23,17 +23,29 @@ main div {
 	place-items: center;
 	width: 45px;
 	height: 45px;
-	border: .2px solid #000;
+	border: .01px solid #000;
+}
+.cell:hover {
+	background: #aaa;
 }
 .cell--red {
-	background: #d05050;
+	background-color: #d05050;
 }
 .cell--black {
-	background: #333;
+	background-color: #333;
 }
 .f {
 	display: block;
-	width: 25px;
-	height: 25px;
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+}
+.f--black {
 	background: rgba(187, 187, 187, 0.438);
+}
+.f--red {
+	background-color: rgb(102, 68, 68);
+}
+.f--select {
+	border: 0.5px solid #000;
 }

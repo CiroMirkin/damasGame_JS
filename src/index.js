@@ -13,7 +13,7 @@ for (let y = 0; y < 10; y++) {
         cell.classList.add('cell')
         cell.classList.add(isRedCell ? 'cell--red' : 'cell--black')
         if(isRedCell && (y < 4 || y > 5)) {
-            cell.innerHTML = '<div class="f"></div>'
+            cell.innerHTML = `<div class="f ${y < 4 ? 'f--black' : 'f--red'}"></div>`
         }
         isRedCell = !isRedCell
         row.appendChild(cell)
