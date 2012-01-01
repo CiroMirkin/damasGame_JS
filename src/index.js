@@ -38,10 +38,6 @@ const getInitialTableGame = () => {
             cell.setAttribute('id', cellId)
             cell.classList.add('cell')
             cell.classList.add(isRedCell ? 'cell--red' : 'cell--black')
-
-            if(isRedCell && (y < 4 || y > 5)) {
-                cell.innerHTML = `<div class="index-card index-card${y < 4 ? '--black' : '--red'}"></div>`
-            }
             
             isRedCell = !isRedCell
             row.appendChild(cell)
@@ -52,4 +48,25 @@ const getInitialTableGame = () => {
     return tableFragment
 }
 
+const getIndexCardsInHisInitialsPositions = (tableGame) => {
+    let isRedCell = false
+
+    for (let y = 0; y < 10; y++) {
+        const row = tableGame.children.item(y)
+        
+        for (let x = 0; x < 10; x++) {
+            const cell = row.children.item(x)
+            
+            if(isRedCell && (y < 4 || y > 5)) {
+                cell.innerHTML = `<div class="index-card index-card${y < 4 ? '--black' : '--red'}"></div>`
+            }
+            isRedCell = !isRedCell
+        }
+        isRedCell = !isRedCell
+    }
+
+    return tableGame.innerHTML
+}
+
 tableGame.appendChild(getInitialTableGame())
+tableGame.innerHTML = getIndexCardsInHisInitialsPositions(tableGame)
