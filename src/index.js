@@ -74,11 +74,7 @@ const getIndexCardsInHisInitialsPositions = (tableGame) => {
     return tableGame.innerHTML
 }
 
-const indexCardEatingAIndexCard = ({ actualCell, oldCell }) => {
-    const actualCellNumberId = [...actualCell.id].at(1) 
-    const oldCellNumberId = [...oldCell.id].at(1)
-
-}
+const formatCellId = (actualCellLetterIndex, numberId) => `${letters[actualCellLetterIndex]}${numberId}-cell`
 
 const canIMoveTheCardIndex = ({ newCellId, actualCellId }) => {
     actualCellId = {
@@ -88,30 +84,47 @@ const canIMoveTheCardIndex = ({ newCellId, actualCellId }) => {
     
     let actualCellLetterIndex = letters.findIndex(letter => letter == actualCellId.letter)
     
-    actualCellLetterIndex -= 2
-    const newIdFromSeccondActualCellAtRightTop = `${letters[actualCellLetterIndex]}${actualCellId.number-2}-cell`
-    const newIdFromSeccondActualCellAtLeftTop = `${letters[actualCellLetterIndex]}${actualCellId.number+2}-cell`
-    
-    actualCellLetterIndex += 1
-    const newIdFromFirstActualCellAtRightTop = `${letters[actualCellLetterIndex]}${actualCellId.number+1}-cell`
-    const newIdFromFirstActualCellAtLeftTop = `${letters[actualCellLetterIndex]}${actualCellId.number-1}-cell`
-    
-    actualCellLetterIndex +=3
-    const newIdFromSeccondActualCellAtLeftBottom = `${letters[actualCellLetterIndex]}${actualCellId.number-2}-cell`
-    const newIdFromSeccondActualCellAtRightBottom = `${letters[actualCellLetterIndex]}${actualCellId.number+2}-cell`
-    
-    actualCellLetterIndex -=1
-    const newIdFromFirstdActualCellAtLeftBottom = `${letters[actualCellLetterIndex]}${actualCellId.number-1}-cell`
-    const newIdFromFirstdActualCellAtRightBottom = `${letters[actualCellLetterIndex]}${actualCellId.number+1}-cell`
+    const newIdsFromActualCell = [
+        {
+            id: formatCellId(actualCellLetterIndex-= 2, actualCellId.number-2),
+            isThereACellInTheMiddle: true,
+            position: 'top left'
+        },{
+            id: formatCellId(actualCellLetterIndex, actualCellId.number+2),
+            isThereACellInTheMiddle: true,
+            position: 'top right'
+        },{
+            id: formatCellId(actualCellLetterIndex+= 1, actualCellId.number+1),
+            position: 'top right'
+        },{
+            id: formatCellId(actualCellLetterIndex, actualCellId.number-1),
+            position: 'top left'
+        },{
+            id: formatCellId(actualCellLetterIndex+=3, actualCellId.number-2),
+            isThereACellInTheMiddle: true,
+            position: 'bottom left'
+        },{
+            id: formatCellId(actualCellLetterIndex, actualCellId.number+2),
+            isThereACellInTheMiddle: true,
+            position: 'bottom right'
+        },{
+            id: formatCellId(actualCellLetterIndex-=1, actualCellId.number-1),
+            position: 'bottom left'
+        },{
+            id: formatCellId(actualCellLetterIndex, actualCellId.number+1),
+            position: 'bottom right'
+        }
+    ]
 
-    const canIMove = 
-        (newCellId == newIdFromFirstActualCellAtLeftTop || newCellId == newIdFromFirstActualCellAtRightTop) 
-        || 
-        (newCellId == newIdFromSeccondActualCellAtLeftTop || newCellId == newIdFromSeccondActualCellAtRightTop)
-        ||
-        (newCellId == newIdFromSeccondActualCellAtLeftBottom || newCellId == newIdFromSeccondActualCellAtRightBottom )
-        ||
-        (newCellId == newIdFromFirstdActualCellAtLeftBottom || newCellId == newIdFromFirstdActualCellAtRightBottom)
+    let canIMove = false
+    
+    Object.entries(newIdsFromActualCell).forEach(newCellInfo => {
+        possibleNewCellId = newCellInfo.at(1).id 
+
+        if(newCellId == possibleNewCellId && !canIMove) {
+            canIMove = true
+        }
+    })
 
     return canIMove
 }
@@ -152,11 +165,6 @@ tableGame.addEventListener('click', (e) => {
                 ></div>
             `
             actualCell.innerHTML = ''
-    
-            indexCardEatingAIndexCard({
-                actualCell: newCell,
-                oldCell: actualCell
-            })
     
             cellForSelect = false
             cardIndexToMove = {}
