@@ -77,28 +77,11 @@ const getIndexCardsInHisInitialsPositions = (tableGame) => {
 const indexCardEatingAIndexCard = ({ actualCell, oldCell }) => {
     const actualCellNumberId = [...actualCell.id].at(1) 
     const oldCellNumberId = [...oldCell.id].at(1)
+    
+}
 
-    const isItTheSameRowLetterId = actualCell.parentElement.id.split('-').at(0) == oldCell.parentElement.id.split('-').at(0)
-    const isItInTheSameRow = actualCellNumberId !== oldCellNumberId
+const canCardIndexToMove = ({ newCellId, actualCellId}) => {
 
-    if (isItInTheSameRow && isItTheSameRowLetterId) {
-        let = cellBetweenTheactualAndTheOldCell = 0
-        
-        if(actualCellNumberId > oldCellNumberId) {
-            cellBetweenTheactualAndTheOldCell = actualCell.previousSibling.children
-        }
-
-        if(actualCellNumberId < oldCellNumberId) {
-            cellBetweenTheactualAndTheOldCell = actualCell.nextSibling.children
-        }
-
-        if (
-            !!cellBetweenTheactualAndTheOldCell.length &&
-            cellBetweenTheactualAndTheOldCell[0].id.split('-').at(1) == 'indexCard'
-        ) {
-            document.getElementById(cellBetweenTheactualAndTheOldCell[0].id).parentElement.innerHTML = ''
-        }
-    }
 }
 
 tableGame.appendChild(getInitialTableGame())
@@ -123,38 +106,28 @@ tableGame.addEventListener('click', (e) => {
         const newCell = document.getElementById(elementId)
         const actualCell = document.getElementById(cardIndexToMove.oldCellId)
        
-        const newCellNumberId = Number([...newCell.id].at(1))
-        const actualCellNumberId = Number([...actualCell.id].at(1))
+        const newCellId = Number([...newCell.id].at(1))
+        const actualCellId = Number([...actualCell.id].at(1))
 
-        const rowOfNewCell = letters.findIndex(letter => newCell.parentElement.id.split('-').at(0) == letter)
-        const rowOfActualCell = letters.findIndex(letter => actualCell.parentElement.id.split('-').at(0)  == letter)
-        
-        const itsTheSameRow = [...elementId].at(0) == [...actualCell.id].at(0)
-        const itsTheSameColumn = newCellNumberId == actualCellNumberId 
-        
-        const canIndexCardMoveOneCellInY = rowOfNewCell+2 == rowOfActualCell || rowOfNewCell-2 == rowOfActualCell 
-        const canIndexCardMoveTwoCellInY = rowOfNewCell+1 == rowOfActualCell || rowOfNewCell-1 == rowOfActualCell
-        const canIndexCardMoveOneCellInX = newCellNumberId+1 == actualCellNumberId || newCellNumberId-1 == actualCellNumberId
-        const canIndexCardMoveTwoCellInX = newCellNumberId+2 == actualCellNumberId || newCellNumberId-2 == actualCellNumberId
-        
-        const canIndexCardMoveInX = canIndexCardMoveOneCellInX || canIndexCardMoveTwoCellInX
-        const canIndexCardMoveInY = canIndexCardMoveOneCellInY || canIndexCardMoveTwoCellInY
-        
-        if(!newCell.children.length && (itsTheSameRow || itsTheSameColumn)) {
-            if (canIndexCardMoveInY || canIndexCardMoveInX) {
-                newCell.innerHTML = `
-                    <div 
-                        class="index-card ${cardIndexToMove.color}"
-                        id="${cardIndexToMove.id}"
-                    ></div>
-                `
-                actualCell.innerHTML = ''
+        const cardIndexCanToMove = canCardIndexToMove({
+            newCellId,
+            actualCellId
+        })
+
+        if(!newCell.children.length && ) {
+            
+            newCell.innerHTML = `
+                <div 
+                    class="index-card ${cardIndexToMove.color}"
+                    id="${cardIndexToMove.id}"
+                ></div>
+            `
+            actualCell.innerHTML = ''
     
-                indexCardEatingAIndexCard({
-                    actualCell: newCell,
-                    oldCell: actualCell
-                })
-            }
+            indexCardEatingAIndexCard({
+                actualCell: newCell,
+                oldCell: actualCell
+            })
     
             cellForSelect = false
             cardIndexToMove = {}
