@@ -77,11 +77,43 @@ const getIndexCardsInHisInitialsPositions = (tableGame) => {
 const indexCardEatingAIndexCard = ({ actualCell, oldCell }) => {
     const actualCellNumberId = [...actualCell.id].at(1) 
     const oldCellNumberId = [...oldCell.id].at(1)
-    
+
 }
 
-const canCardIndexToMove = ({ newCellId, actualCellId}) => {
+const canIMoveTheCardIndex = ({ newCellId, actualCellId }) => {
+    actualCellId = {
+        number: Number([...actualCellId].at(1)),
+        letter: [...actualCellId].at(0)
+    }
+    
+    let actualCellLetterIndex = letters.findIndex(letter => letter == actualCellId.letter)
+    
+    actualCellLetterIndex -= 2
+    const newIdFromSeccondActualCellAtRightTop = `${letters[actualCellLetterIndex]}${actualCellId.number-2}-cell`
+    const newIdFromSeccondActualCellAtLeftTop = `${letters[actualCellLetterIndex]}${actualCellId.number+2}-cell`
+    
+    actualCellLetterIndex += 1
+    const newIdFromFirstActualCellAtRightTop = `${letters[actualCellLetterIndex]}${actualCellId.number+1}-cell`
+    const newIdFromFirstActualCellAtLeftTop = `${letters[actualCellLetterIndex]}${actualCellId.number-1}-cell`
+    
+    actualCellLetterIndex +=3
+    const newIdFromSeccondActualCellAtLeftBottom = `${letters[actualCellLetterIndex]}${actualCellId.number-2}-cell`
+    const newIdFromSeccondActualCellAtRightBottom = `${letters[actualCellLetterIndex]}${actualCellId.number+2}-cell`
+    
+    actualCellLetterIndex -=1
+    const newIdFromFirstdActualCellAtLeftBottom = `${letters[actualCellLetterIndex]}${actualCellId.number-1}-cell`
+    const newIdFromFirstdActualCellAtRightBottom = `${letters[actualCellLetterIndex]}${actualCellId.number+1}-cell`
 
+    const canIMove = 
+        (newCellId == newIdFromFirstActualCellAtLeftTop || newCellId == newIdFromFirstActualCellAtRightTop) 
+        || 
+        (newCellId == newIdFromSeccondActualCellAtLeftTop || newCellId == newIdFromSeccondActualCellAtRightTop)
+        ||
+        (newCellId == newIdFromSeccondActualCellAtLeftBottom || newCellId == newIdFromSeccondActualCellAtRightBottom )
+        ||
+        (newCellId == newIdFromFirstdActualCellAtLeftBottom || newCellId == newIdFromFirstdActualCellAtRightBottom)
+
+    return canIMove
 }
 
 tableGame.appendChild(getInitialTableGame())
@@ -106,15 +138,12 @@ tableGame.addEventListener('click', (e) => {
         const newCell = document.getElementById(elementId)
         const actualCell = document.getElementById(cardIndexToMove.oldCellId)
        
-        const newCellId = Number([...newCell.id].at(1))
-        const actualCellId = Number([...actualCell.id].at(1))
-
-        const cardIndexCanToMove = canCardIndexToMove({
-            newCellId,
-            actualCellId
+        const cardIndexCanToMove = canIMoveTheCardIndex({
+            newCellId: newCell.id,
+            actualCellId: actualCell.id
         })
 
-        if(!newCell.children.length && ) {
+        if(!newCell.children.length && cardIndexCanToMove) {
             
             newCell.innerHTML = `
                 <div 
