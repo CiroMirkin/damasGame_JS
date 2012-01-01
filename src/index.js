@@ -62,7 +62,7 @@ const getIndexCardsInHisInitialsPositions = (tableGame) => {
                 cell.innerHTML = `
                     <div 
                         class="index-card index-card${y < 4 ? '--black' : '--red'}"
-                        id="${indexCardId}"
+                        id="${indexCardId}-indexCard"
                     ></div>
                 `
             }
@@ -76,3 +76,32 @@ const getIndexCardsInHisInitialsPositions = (tableGame) => {
 
 tableGame.appendChild(getInitialTableGame())
 tableGame.innerHTML = getIndexCardsInHisInitialsPositions(tableGame)
+
+let cellForSelect = false
+let cardIndexFotToMove = {}
+
+tableGame.addEventListener('click', (e) => {
+    const elementId = e.target.id
+    
+    if(elementId.split('-').at(1) == 'indexCard' && !cellForSelect) {
+        cardIndexFotToMove = {
+            color: e.target.classList[1],
+            id: elementId,
+            oldCellId: e.target.parentElement.id
+        }          
+        cellForSelect = true 
+    }
+
+    if(elementId.split('-').at(1) == 'cell' && cellForSelect) {
+        const cell = document.getElementById(elementId)
+        const oldCell = document.getElementById(cardIndexFotToMove.oldCellId)
+
+        cell.innerHTML = `
+        <div 
+            class="index-card ${cardIndexFotToMove.color}"
+            id="${cardIndexFotToMove.id}"
+        ></div>
+        `
+        oldCell.innerHTML = ''
+    }
+})
