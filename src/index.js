@@ -76,55 +76,83 @@ const getIndexCardsInHisInitialsPositions = (tableGame) => {
 
 const formatCellId = (actualCellLetterIndex, numberId) => `${letters[actualCellLetterIndex]}${numberId}-cell`
 
+const indexCardEats = ({ newIdsFromActualCell, actualCellId, newCellPosition }) => {
+    let canIMove = true
+
+    Object.entries(newIdsFromActualCell).forEach(newCellInfo => {
+        const { id, position, isThereACellInTheMiddle } = newCellInfo.at(1)
+        
+        if(newCellPosition == position && !isThereACellInTheMiddle) {
+            const cellInTheMiddle = document.getElementById(id)
+            const colorIndexCardFromCellInTheMiddle = cellInTheMiddle.children.item(0).classList[1].split('--').at(1)
+            const colorCardIndexFromNewCell = document.getElementById(actualCellId).children.item(0).classList[1].split('--').at(1)
+            
+            if(colorIndexCardFromCellInTheMiddle != colorCardIndexFromNewCell) {
+                cellInTheMiddle.innerHTML = ''
+            } else {
+                canIMove = false
+            }
+        }
+    })
+
+    return canIMove
+}
+
 const canIMoveTheCardIndex = ({ newCellId, actualCellId }) => {
-    actualCellId = {
+    const actualCellIds = {
         number: Number([...actualCellId].at(1)),
         letter: [...actualCellId].at(0)
     }
     
-    let actualCellLetterIndex = letters.findIndex(letter => letter == actualCellId.letter)
+    let actualCellLetterIndex = letters.findIndex(letter => letter == actualCellIds.letter)
     
     const newIdsFromActualCell = [
         {
-            id: formatCellId(actualCellLetterIndex-= 2, actualCellId.number-2),
+            id: formatCellId(actualCellLetterIndex-= 2, actualCellIds.number-2),
             isThereACellInTheMiddle: true,
             position: 'top left'
         },{
-            id: formatCellId(actualCellLetterIndex, actualCellId.number+2),
+            id: formatCellId(actualCellLetterIndex, actualCellIds.number+2),
             isThereACellInTheMiddle: true,
             position: 'top right'
         },{
-            id: formatCellId(actualCellLetterIndex+= 1, actualCellId.number+1),
+            id: formatCellId(actualCellLetterIndex+= 1, actualCellIds.number+1),
             position: 'top right'
         },{
-            id: formatCellId(actualCellLetterIndex, actualCellId.number-1),
+            id: formatCellId(actualCellLetterIndex, actualCellIds.number-1),
             position: 'top left'
         },{
-            id: formatCellId(actualCellLetterIndex+=3, actualCellId.number-2),
+            id: formatCellId(actualCellLetterIndex+=3, actualCellIds.number-2),
             isThereACellInTheMiddle: true,
             position: 'bottom left'
         },{
-            id: formatCellId(actualCellLetterIndex, actualCellId.number+2),
+            id: formatCellId(actualCellLetterIndex, actualCellIds.number+2),
             isThereACellInTheMiddle: true,
             position: 'bottom right'
         },{
-            id: formatCellId(actualCellLetterIndex-=1, actualCellId.number-1),
+            id: formatCellId(actualCellLetterIndex-=1, actualCellIds.number-1),
             position: 'bottom left'
         },{
-            id: formatCellId(actualCellLetterIndex, actualCellId.number+1),
+            id: formatCellId(actualCellLetterIndex, actualCellIds.number+1),
             position: 'bottom right'
         }
     ]
 
     let canIMove = false
+    let newCellPosition = ''
     
     Object.entries(newIdsFromActualCell).forEach(newCellInfo => {
-        possibleNewCellId = newCellInfo.at(1).id 
-
-        if(newCellId == possibleNewCellId && !canIMove) {
+        const { id, position, isThereACellInTheMiddle } = newCellInfo.at(1)
+        
+        if(newCellId === id && !canIMove) {
             canIMove = true
+            if(!!isThereACellInTheMiddle) newCellPosition = position
         }
     })
+
+    if(canIMove && !!newCellPosition){
+        canIMove = indexCardEats({ newIdsFromActualCell, actualCellId, newCellPosition })
+    }
 
     return canIMove
 }
@@ -165,10 +193,9 @@ tableGame.addEventListener('click', (e) => {
                 ></div>
             `
             actualCell.innerHTML = ''
-    
-            cellForSelect = false
-            cardIndexToMove = {}
         }
 
+        cellForSelect = false
+        cardIndexToMove = {}
     }
 })
