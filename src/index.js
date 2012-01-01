@@ -105,13 +105,13 @@ tableGame.appendChild(getInitialTableGame())
 tableGame.innerHTML = getIndexCardsInHisInitialsPositions(tableGame)
 
 let cellForSelect = false
-let cardIndexFotToMove = {}
+let cardIndexToMove = {}
 
 tableGame.addEventListener('click', (e) => {
     const elementId = e.target.id
 
     if (elementId.split('-').at(1) == 'indexCard' && !cellForSelect) {
-        cardIndexFotToMove = {
+        cardIndexToMove = {
             color: e.target.classList[1],
             id: elementId,
             oldCellId: e.target.parentElement.id
@@ -120,25 +120,35 @@ tableGame.addEventListener('click', (e) => {
     }
 
     if (elementId.split('-').at(1) == 'cell' && cellForSelect) {
-        const actualCell = document.getElementById(elementId)
-        const oldCell = document.getElementById(cardIndexFotToMove.oldCellId)
-
-        if (!actualCell.children.length) {
-            actualCell.innerHTML = `
-                <div 
-                    class="index-card ${cardIndexFotToMove.color}"
-                    id="${cardIndexFotToMove.id}"
-                ></div>
-            `
-            oldCell.innerHTML = ''
-
-            indexCardEatingAIndexCard({
-                actualCell,
-                oldCell
-            })
+        const newCell = document.getElementById(elementId)
+        const actualCell = document.getElementById(cardIndexToMove.oldCellId)
+       
+        const newCellNumberId = Number([...newCell.id].at(1))
+        const actualCellNumberId = Number([...actualCell.id].at(1))
+        
+        const itsTheSameRow = [...elementId].at(0) == [...actualCell.id].at(0)
+        const canIndexCardToMoveOneCell = newCellNumberId+1 == actualCellNumberId || newCellNumberId-1 == actualCellNumberId
+        const canIndexCardToMoveTwoCell = newCellNumberId+2 == actualCellNumberId || newCellNumberId-2 == actualCellNumberId
+        
+        if(itsTheSameRow) {
+            if (!newCell.children.length && (canIndexCardToMoveOneCell || canIndexCardToMoveTwoCell)) {
+                newCell.innerHTML = `
+                    <div 
+                        class="index-card ${cardIndexToMove.color}"
+                        id="${cardIndexToMove.id}"
+                    ></div>
+                `
+                actualCell.innerHTML = ''
+    
+                indexCardEatingAIndexCard({
+                    actualCell: newCell,
+                    oldCell: actualCell
+                })
+            }
+    
+            cellForSelect = false
+            cardIndexToMove = {}
         }
 
-        cellForSelect = false
-        cardIndexFotToMove = {}
     }
 })
