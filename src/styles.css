@@ -1,4 +1,32 @@
-* {
-	box-sizing:border-box;
-	margin:0; padding:0;
+* {box-sizing:border-box;margin:0;padding:0;}
+
+main {
+	width: 100%;
+	height: 100vh;
+	display: grid;
+	place-items: center;
+	background: #aaa;
+}
+main div {
+	width: 75%;
+	display: flex;
+	flex-direction: column;
+}
+.row {
+	list-style: none;
+	display: flex;
+	flex-shrink: 0;
+	flex-flow: 0;
+}
+.cell {
+	display: inline-block;
+	width: 45px;
+	height: 45px;
+	border: .2px solid #000;
+}
+.cell--red {
+	background: #d05050;
+}
+.cell--black {
+	background: #333;
 }
