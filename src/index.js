@@ -125,13 +125,23 @@ tableGame.addEventListener('click', (e) => {
        
         const newCellNumberId = Number([...newCell.id].at(1))
         const actualCellNumberId = Number([...actualCell.id].at(1))
+
+        const rowOfNewCell = letters.findIndex(letter => newCell.parentElement.id.split('-').at(0) == letter)
+        const rowOfActualCell = letters.findIndex(letter => actualCell.parentElement.id.split('-').at(0)  == letter)
         
         const itsTheSameRow = [...elementId].at(0) == [...actualCell.id].at(0)
-        const canIndexCardToMoveOneCell = newCellNumberId+1 == actualCellNumberId || newCellNumberId-1 == actualCellNumberId
-        const canIndexCardToMoveTwoCell = newCellNumberId+2 == actualCellNumberId || newCellNumberId-2 == actualCellNumberId
+        const itsTheSameColumn = newCellNumberId == actualCellNumberId 
         
-        if(itsTheSameRow) {
-            if (!newCell.children.length && (canIndexCardToMoveOneCell || canIndexCardToMoveTwoCell)) {
+        const canIndexCardMoveOneCellInY = rowOfNewCell+2 == rowOfActualCell || rowOfNewCell-2 == rowOfActualCell 
+        const canIndexCardMoveTwoCellInY = rowOfNewCell+1 == rowOfActualCell || rowOfNewCell-1 == rowOfActualCell
+        const canIndexCardMoveOneCellInX = newCellNumberId+1 == actualCellNumberId || newCellNumberId-1 == actualCellNumberId
+        const canIndexCardMoveTwoCellInX = newCellNumberId+2 == actualCellNumberId || newCellNumberId-2 == actualCellNumberId
+        
+        const canIndexCardMoveInX = canIndexCardMoveOneCellInX || canIndexCardMoveTwoCellInX
+        const canIndexCardMoveInY = canIndexCardMoveOneCellInY || canIndexCardMoveTwoCellInY
+        
+        if(!newCell.children.length && (itsTheSameRow || itsTheSameColumn)) {
+            if (canIndexCardMoveInY || canIndexCardMoveInX) {
                 newCell.innerHTML = `
                     <div 
                         class="index-card ${cardIndexToMove.color}"
