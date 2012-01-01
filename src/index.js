@@ -56,9 +56,15 @@ const getIndexCardsInHisInitialsPositions = (tableGame) => {
         
         for (let x = 0; x < 10; x++) {
             const cell = row.children.item(x)
-            
+            const indexCardId = Date.now().toString(14)+Math.random().toString(34)
+
             if(isRedCell && (y < 4 || y > 5)) {
-                cell.innerHTML = `<div class="index-card index-card${y < 4 ? '--black' : '--red'}"></div>`
+                cell.innerHTML = `
+                    <div 
+                        class="index-card index-card${y < 4 ? '--black' : '--red'}"
+                        id="${indexCardId}"
+                    ></div>
+                `
             }
             isRedCell = !isRedCell
         }
