@@ -14,10 +14,7 @@ const getTableIds = (long) => {
             cellsIds.push(`${letter}${i}-cell`)
         }
 
-        return {
-            rowId,
-            cellsIds
-        }
+        return { rowId, cellsIds }
     })
 }
 
@@ -63,6 +60,7 @@ const getIndexCardsInHisInitialsPositions = (tableGame) => {
                     <div 
                         class="index-card index-card${y < 4 ? '--red' : '--black'}"
                         id="${indexCardId}-indexCard"
+                        dama="false"
                     ></div>
                 `
             }
@@ -143,7 +141,7 @@ const canIMoveTheCardIndex = ({ newCellId, actualCellId }) => {
     
     Object.entries(newIdsFromActualCell).forEach(newCellInfo => {
         const { id, position, isThereACellInTheMiddle } = newCellInfo.at(1)
-        
+        document.getElementById(id).style.background = 'blue'
         if(newCellId === id && !canIMove) {
             canIMove = true
             if(!!isThereACellInTheMiddle) newCellPosition = position

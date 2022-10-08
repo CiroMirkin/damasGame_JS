@@ -1,8 +1,9 @@
 # Damas game
 
 Este repositorio es un sitio web que te permite jugar a las damas.
+This repository is a web site where you can play damas.
 
-## Estructura del tablero
+## The struct of the table game
 
 La cuadrícula del tablero está conformada por un contenedor con diez listas, cuyos IDs van desde **a-row** hasta **j-row**.
 
@@ -23,3 +24,7 @@ También cada ítem de la lista tiene un ID, que se compone de la letra de la fi
 		</ul>
 	</div>
 ```
+
+## Table game view
+
+![Table game](./src/screenshot.png)
